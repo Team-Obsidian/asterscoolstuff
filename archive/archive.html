@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>archive</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <script src="script.js"></script>
+  
+<form>
+  <input type="text" id="inputbox">
+  <input type="button" id="button1" onclick="embed()" value="click!">
+</form>
+
+<img src="goose.jpg">
+
+<script>
+  
+function embed() {
+  console.log("Input: " + document.getElementById("inputbox").value);
+
+  if (document.getElementById("inputbox").value.includes("https://archive.org/details/") == true) {
+    console.log("is an archive.org link");
+    
+    let output = document.getElementById("inputbox").value.slice(28);
+    console.log("Output: " + output);
+    const myArray = output.split("/");
+    let archiveid = myArray[0];
+    console.log("Archiveid: " + archiveid);
+
+    let finaloutput = "https://archive.org/services/loans/loan/?action=media_url&identifier=" + archiveid + "&format=pdf&redirect=1";
+    console.log("Link is: " + "https://archive.org/services/loans/loan/?action=media_url&identifier=" + archiveid + "&format=pdf&redirect=1");
+    window.open(finaloutput, '_blank');
+    
+  } else {
+    document.getElementById("inputbox").value = "";
+    alert("Sorry, but that\'s invalid");
+  }
+}
+  
+</script>
+
+<p>basically, find a book on archive.org and then borrow it for an hour or something</p>
+<p>then, paste the link in here and you'll download a file from the new created tab</p>
+<p>open with <a href="https://www.adobe.com/solutions/ebook/digital-editions/download.html" target="_blank">Adobe Digital Editions</a> and let it fully load in</p>
+
+<br>
+<p>get <a href="https://download.calibre-ebook.com/4.23.0/" target="_blank">Calibre 4.23</a> and also download <a href="https://github.com/apprenticeharper/DeDRM_tools/releases/tag/v6.8.1" target="_blank">deDRM.</a> Make sure to unzip it once.</p>
+<p>open Calibre and navigate to the preferences page (click the 3 dots on the side menu since it likely won't show up unless you're full screen or something</p>
+<p>go to plugins in the advanced tab and load from file, then find your DeDRM_Plugin.zip file to accept it</p>
+
+<br><p>once setup is done, go to your documents folder and into "My Digital Editions" folder</p>
+<p>drag the pdf files you want individually into an open calibre window so that it's added to the library</p>
+
+<br><p>just right click in the library to "open containing folder" or something like that and boom, that's your pdf. make sure to copy it out of the folder though into another place</p>
+  
+<br><br><p>Note: home computer only, not chromebook - ask for assistance in person if needed</p>
+<p>if you got an error for the download link, make sure you borrowed it already.</p>
+<p>also, if your final pdf isn't opening in a web browser properly, then your de-drm process went wrong somewhere and you can try adding it to the library fresh again from "My Digital Editions"</p>
+</body>
+
+</html>

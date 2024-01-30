@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta id="metaid" charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Pending Motivation...</title>
+  <link rel="icon" type="image/x-icon" href="favicon.jpeg">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link href="crt.css" rel="stylesheet" type="text/css" />
+  <link href="zombieStory.css" rel="stylesheet" type="text/css" />
+  <link href='https://fonts.googleapis.com/css?family=Noto Sans JP' rel='stylesheet'>
+  <link href='https://hubless.teamobsidianasterisk.repl.co/ms-gothic.ttf'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FitText.js/1.2.0/jquery.fittext.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/mousetrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/eruda@3.0.0/eruda.min.js"></script>
+  <script src="https://unpkg.com/draggabilly@3/dist/draggabilly.pkgd.min.js"></script>
+  <script>eruda.init();</script>
+</head>
+
+<body>
+
+  <div id="borderContainer">
+    <div id="borderL">
+      <button id="" class="center" onclick="loadPage('mgContent')">Load Main Content</button>
+      <button id="" class="center" onclick="loadPage('zombieStory')">Load Zombie Story</button>
+      <button id="" class="center" onclick="loadPage('settings')">Load Settings</button>
+
+      <button class='center'><a href="./archive/archive.html">go to archive</a></button>
+      <button class='center'><a href="./temp/index.html">go to temp</a></button>
+    </div>
+    <div id="borderR"></div>
+    <!--
+  <div id="borderT"></div>
+  <div id="borderB"></div>
+-->
+  </div>
+
+  <div id="fgContent" class="">
+    <div id="dtIcon" class="">
+      <p id="dtIconDate" class="halfScale center">Date-test</p>
+      <p id="dtIconWeek" class="halfScale center">Date-test</p>
+      <!--<img src="/sun-test.png">-->
+      <p id="dtIconTime" class="halfScale timerSec center">Time-test</p>
+    </div>
+  </div>
+
+  <div id="fgFilter">
+  </div>
+
+
+
+
+  <div id="mgContentContainer">
+
+  </div>
+
+
+
+  <div id="bgImg" class="bgtilescroll1">
+    <!--  <div class="checkerboard"></div> -->
+  </div>
+
+
+  <div id="embedobject" class="dragOpen">
+    <!--<div id="handlebar" class="" ></div>-->
+    <!-- <iframe id="embed" src="https://www.youtube.com/embed/dQw4w9WgXcQ?auto" class="dragOpen window"></iframe> -->
+  </div>
+  <div id="clockobject" class="drag2Open">
+
+  </div>
+
+
+
+  <div id="crtLayer">
+    <!--<div class="scanline"></div>-->
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
