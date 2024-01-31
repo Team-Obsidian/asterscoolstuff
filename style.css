@@ -10,7 +10,7 @@
   --mgContent-padding-y: 10%;
 
   /*  --bgImg-image: url("https://github.com/Team-Obsidian/website-2/blob/main/img/background/deltarunebattlebg.gif?raw=true"); */
-  --bgImg-image: url("/p3p-tile-32x32.png");
+  --bgImg-image: url("./p3p-tile-32x32.png");
   --bgImg-url: url("https://github.com/Team-Obsidian/website-2/raw/main/img/background/bg1.png");
   --bgImg-scroll-x: 58px;
   --bgImg-scroll-y: 58px;
