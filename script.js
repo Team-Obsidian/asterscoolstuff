@@ -257,11 +257,11 @@ function blurpx(element, amnt) {
   $("#enableblock").css({ "opacity": "0.3" });
 }
 
-
+/*
 function clearfilter(element) {
   document.getElementById(element).style.filter = "";
   $("#enableblock").css({ "opacity": "0.1" });
-}
+} */
 
 function saveNotepad() {
   localStorage.setItem("notepad", document.getElementById("notepad").innerHTML);
@@ -279,6 +279,7 @@ function loadTime() {
     timePass = (localStorage.getItem("timePass") === "true");
     bgChange = (localStorage.getItem("bgChange") === "true");
     fontColorChange = (localStorage.getItem("fontColorChange") === "true");
+    bgFilterChange = (localStorage.getItem("bgFilterChange") === "true");
     checkImpVar();
   } else {
     console.log("localStorage[\"timePass\"] is " + localStorage["timePass"]);
@@ -291,6 +292,9 @@ function loadTime() {
     localStorage.setItem("bgChange", defaultBehavior);
     bgChange = (localStorage.getItem("bgChange") === "true");
 
+    localStorage.setItem("bgFilterChange", defaultBehavior);
+    bgFilterChange = (localStorage.getItem("bgFilterChange") === "true");
+
     localStorage.setItem("fontColorChange", defaultBehavior);
     fontColorChange = (localStorage.getItem("fontColorChange") === "true");
 
@@ -299,6 +303,7 @@ function loadTime() {
   if (timePass === true) {
     updateBG();
     updateFontColor();
+    updateBGFilterChange();
   }
 }
 
@@ -318,6 +323,9 @@ function checkImpVar() {
 
   console.log("fontColorChange is: " + fontColorChange);
   console.log("localStorage bgChange is: " + localStorage.getItem("fontColorChange"));
+
+  console.log("bgFilterChange is: " + bgFilterChange);
+  console.log("localStorage bgFilerChange is: " + localStorage.getItem("bgFilterChange"));
 
 
   console.log("End of checkImpVar");
@@ -421,6 +429,45 @@ function updateFontColor() {
       r.style.setProperty('--font-color', '#fff');
       r.style.setProperty('--font-shadow', '1px 1px #000');
       console.log("--font-color + --font-shadow is default");
+    }
+
+  }
+}
+
+
+var bgFilterChange;
+
+function updateBGFilterChange() {
+  console.log("updateBGFilterChange is running");
+  if (bgFilterChange == "true" || bgFilterChange === true) {
+    console.log("bgFilterChange is " + typeof bgFilterChange);
+    let r = document.querySelector(':root');
+    if (0 <= presentTime && presentTime <= 5) {
+      r.style.setProperty('--bgFilter-filter', 'contrast(3) brightness(1) invert(1) saturate(2)');
+      console.log("--bgFilter-filter is contrast(3) brightness(1) invert(1) saturate(2)");
+    }
+    else if (6 <= presentTime && presentTime <= 8) {
+      r.style.setProperty('--bgFilter-filter', 'contrast(3) brightness(1) invert(1) saturate(2)');
+      console.log("--bgFilter-filter is contrast(3) brightness(1) invert(1) saturate(2)");
+    }
+    else if (9 <= presentTime && presentTime <= 11) {
+      r.style.setProperty('--bgFilter-filter', 'contrast(3) brightness(1) invert(0) saturate(2)');
+      console.log("--bgFilter-filter is contrast(3) brightness(1) invert(0) saturate(2)");
+    }
+    else if (12 <= presentTime && presentTime <= 14) {
+      r.style.setProperty('--bgFilter-filter', 'contrast(3) brightness(1) invert(0) saturate(2)');
+      console.log("--bgFilter-filter is contrast(3) brightness(1) invert(0) saturate(2)");
+    }
+    else if (15 <= presentTime && presentTime <= 17) {
+      r.style.setProperty('--bgFilter-filter', 'contrast(3) brightness(1) invert(1) saturate(2)');
+      console.log("--bgFilter-filter is contrast(3) brightness(1) invert(1) saturate(2)");
+    }
+    else if (18 <= presentTime && presentTime <= 23) {
+      r.style.setProperty('--bgFilter-filter', 'contrast(3) brightness(1) invert(1) saturate(2)');
+      console.log("--bgFilter-filter is contrast(3) brightness(1) invert(1) saturate(2)");
+    } else {
+      r.style.setProperty('--bgFilter-filter', '');
+      console.log("--bgFilter-filter is default, bg1.png");
     }
 
   }

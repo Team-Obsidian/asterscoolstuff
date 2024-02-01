@@ -4,10 +4,23 @@
   <button class="center" onclick="updateFontColor()">Update font color</button>
   <button class="center" onclick="checkImpVar()">Check Important Variables</button>
   <button class="center" onclick="localStorage.clear()">Reset localStorage</button>
+
   <p class="center">click the stuff below to toggle the variables</p>
   <div id="buttonfield2">
     <button class="" onclick="toggle('timePass')">{timePass}</button>
     <button class="" onclick="toggle('bgChange')">{bgChange}</button>
     <button class="" onclick="toggle('fontColorChange')">{fontColorChange}</button>
+    <button class="" onclick="toggle('bgFilterChange')">{bgFilterChange}</button>
 </div>
+  <button class="" onclick="changeTime()">Set Time</button>
+  <input id='timeValue' type="number" min="0" max='24' value="1">
 </div>
+
+<script>
+  function changeTime() {
+    
+    presentTime = document.getElementById('timeValue').value;
+    console.log("changed time, present time is now: " + presentTime);
+    loadTime();
+  }
+</script>

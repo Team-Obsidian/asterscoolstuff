@@ -15,6 +15,8 @@
   --bgImg-scroll-x: 58px;
   --bgImg-scroll-y: 58px;
 
+  --bgFilter-filter: contrast(3) brightness(1) invert(1) saturate(3);
+
   --embed-window: 150px;
 
   --font-body: 'Helvetica', sans-serif;
@@ -93,6 +95,28 @@ button {
   bottom: 0px;
 }
 
+#bgFilter {
+  min-width: var(--view-width-min);
+  width: 100vw
+    /*var(--view-max-width)*/
+  ;
+  min-height: var(--view-height-min);
+  height: 100vh;
+  overflow: hidden;
+  position: absolute;
+  top: 0vw;
+  left: 0vw;
+  /*  left: calc((100vw - var(--view-max-width)) / 2);
+  left: var(--padding-max-x); */
+  z-index: 1;
+  background-image: url(./concrete-tile.jpg);
+  background-repeat: repeat;
+  opacity: 0.2;
+  filter: var(--bgFilter-filter);
+  animation: bg-scroll 30s linear infinite;
+  pointer-events: none;
+}
+
 #bgImg {
   width: 100vw;
   height: 101vh;
@@ -146,11 +170,14 @@ button {
   /*  left: calc((100vw - var(--view-max-width)) / 2);
   left: var(--padding-max-x); */
   z-index: 4;
+  /*
   background-image: url(./concrete-tile.jpg);
   background-repeat: repeat;
+
   opacity: 0.2;
   filter: contrast(100%) brightness(1.5);
   animation: bg-scroll 30s linear infinite;
+  */
   pointer-events: none;
 }
 
