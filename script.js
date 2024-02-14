@@ -489,3 +489,19 @@ function flipPage(page) {
   console.log("page is flipping to " + page);
   $("#textContainer").load("./ZombieStory/" + page + ".html");
 }
+
+var bookmarkList = []
+
+function createBookmark() {
+  let bookmarkName = document.getElementById("bookmarkName").value;
+  let bookmarkLink = document.getElementById("userInput").value;
+  localStorage.setItem(bookmarkName, bookmarkLink);
+  console.log("bookmark created: " + bookmarkName + " with link: " + bookmarkLink);
+  bookmarkList.push(bookmarkName);
+}
+
+function callBookmark() {
+  for (let i=0; i<bookmarkList.length(); i++) {
+    
+  }
+}

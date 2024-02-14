@@ -1,6 +1,8 @@
 <div id="mgContent" class="fadeIn">
   <form autocomplete="off">
-    <input type="text" onpaste="SiteRedirect()" id="userInput" onfocus="" onfocusout="" class="center" />
+    <input type="text" onpaste="SiteRedirect()" id="userInput" onfocus="" onfocusout="" class="center inputBox inputBoxEnlargen" />
+    <input type="text" onpaste="SiteRedirect()" id="bookmarkName" onfocus="" onfocusout="" class="center inputBox" />
+    <button id="bookmarkSubmit">Create Bookmark</button><button id="bookmarkDelete">Delete Bookmark</button>
   </form>
 
   <img id="testimage" class="center"
@@ -44,11 +46,15 @@
     <a href="https://red-mooschrom-github-io.vercel.app/"><button>Doodle</button></a>
 
   </div>
+  <div id='buttonfieldCustom'>
+    
+  </div>
   <p id="testline" class="center">Paste your link into the above textbox and click on the bunny to be redirected.</p>
   <h1 id="longline" class="center">Current Message: Nothing Today. Just enjoy yourself.</h1>
 
   <div id="notepad" class="editable dropblue" contentEditable="true" onfocusout="saveNotepad()">
   </div>
+
 
   <!--
     <div id="varCont">

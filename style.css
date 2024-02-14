@@ -282,7 +282,7 @@ h6 {
   text-shadow: var(--font-shadow);
 }
 
-#userInput {
+.inputBox {
   position: relative;
   width: 70vw;
   padding: 0;
@@ -292,7 +292,7 @@ h6 {
   font-family: var(--font-body);
 }
 
-#userInput:focus {
+.inputBoxEnlargen:focus {
   background: url("https://github.com/Team-Obsidian/assets/raw/main/deltarunebattlebg.gif");
   transition: height 1.5s, width 1s, font-size 1.5s, border-width 2s, color 1s;
   height: 2em;
@@ -391,6 +391,7 @@ h6 {
   color: #3F61A6;
   text-shadow: white 2px 2px;
 }
+
 
 .halfScale {
   color: white;
