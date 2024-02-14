@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Music</title>
+  <link href="index.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../img/icon/Favicon.png">
+<body onload="">
+  <div id="musicbackground" class="big apple">
+  </div>
+
+    <div id="musiccontent" class="black apple">
+<br><br><br><br><br><br>
+<p id="welcome">welcome to the music testing page</p>
+<p>this place will get updated soon but here, you'll be able to listen to every song that I've uploaded on this website</p>
+<p id="displaysong">No song currently playing [TEMP]</p> 
+<p id="displaysongnum">Track #0[TEMP]</p>
+<p id="displayshuffle"></p>
+<!--<p id="displaysongalbum">Song Album[TEMP]</p>-->
+<!--<p>metadata implementation pending</p>-->
+  <script language="javascript" src="howler.js"></script>
+  <script language="javascript" src="jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script src="id3-minimized.js"></script>
+<script>eruda.init();</script>
+  
+  <script>
+$(document).ready(function(){
+  $("#waitscreen").click(function(){
+    $("#waitscreen").css({"display": "none"});
+    rememberList()
+  });
+});
+
+    var ID3 = window.ID3
+
+    var list = []
+    var listname = []
+//duration()
+var i=0;
+
+var shuffletoggle = false;
+
+function toggleshuffle() {
+  if (shuffletoggle==false) {
+    shuffletoggle = true;
+  } else {
+    shuffletoggle = false;
+  }
+  console.log("Shuffle Status: " + shuffletoggle.toString());
+  document.getElementById("displayshuffle").innerHTML = "Shuffle Status: " + shuffletoggle.toString()
+}
+    
+function autoplay(i_, list) {
+    i = i_;
+    this.howl = new Howl({
+        src: [list[i]],
+        preload: true,
+        autoplay: true,
+        onplay: function () {
+          document.getElementById("displaysong").innerHTML = "Song file name: ~" + listname[i] + "~";
+          document.getElementById("displaysongnum").innerHTML = "Track #" + String(i + 1);
+          howl.volume(document.getElementById("volumeSlide").value);
+          console.log(listname[i] + " ~ " + i); 
+
+          console.log('id3-tag loading will happen');
+          ID3.loadTags(list[i], function() {
+              var tags = ID3.getAllTags(list[i]);
+              alert(tags.artist + " - " + tags.title + ", " + tags.album);
+              console.log('loading-tags stuff');
+          });
+
+        },
+        onend: function () {
+
+          if (shuffletoggle = false) {
+            if ((i + 1) >= list.length) {
+                autoplay(0, list);
+                console.log(i);
+                
+                //document.getElementById("displaysongnum").innerHTML = "Track #" + i;
+            } else {
+                i += 1;
+                autoplay(i, list);
+                console.log(i);
+            }
+          } else {
+            shuffle();
+          } 
+        updateSongName();
+        }
+    })
+}
+
+var jsonRaw = "testing";
+    
+function skip() {
+    console.log("1: i=" + i);
+    this.howl.unload();
+    if (shuffletoggle != true) {
+      console.log("shuffletoggle false i=" + i);
+        if (i+1>=list.length) {
+          autoplay(0, list);
+        } else {
+        this.howl.unload();
+        autoplay(i+1, list); }
+    } else {
+        shuffle()
+    }
+}
+  /*
+    const sound = this.howl.pause()._sounds[0];
+    const currentSeek = sound._seek;
+    const forwardTo = this.howl.duration()-0.03;
+    console.log('skipping to ' + forwardTo + ' from ' + currentSeek);
+    this.howl.seek(forwardTo);
+    this.howl.play();
+    }
+*/
+
+function shuffle() {
+  let shuffleNum = randomnum() - 1;
+  if (shuffleNum == i) {shuffle()} else {
+  this.howl.unload();
+  autoplay(shuffleNum, list);
+  }
+}
+
+function randomnum() {
+  var testvalue = Math.floor(Math.random() * list.length);
+  if (testvalue != i) { 
+  return testvalue;
+  }
+  else {
+    randomnum();
+  }
+}
+
+
+function audiotoggle() {
+  if (this.howl.playing()==true) {
+    this.howl.pause()
+  } else {
+    this.howl.play()
+  }
+}
+
+autoplay(0, list);
+
+function changeText2(trackList, listOfSongs) {
+    let entry = document.createElement('li');
+    entry.appendChild(document.createTextNode(trackList-1 + ". " + listOfSongs));
+    document.getElementById("trueSongList").appendChild(entry);
+    document.getElementById("trueSongList").appendChild(document.createElement('br'));
+}
+
+async function load(playlistid) {
+    sessionStorage.setItem("playlistid", playlistid);
+    console.log(howl.state());
+    if (howl.state()!="unloaded") {
+      howl.unload();
+      list = [];
+      listname = [];
+    }
+    console.log("Load | Saved playlist = " + playlistid);
+
+  
+    let url = "https://api.github.com/repos/team-obsidian/" + playlistid + "/git/trees/main?recursive=1";
+    jsonRaw = await (await fetch(url)).json();
+    console.log(jsonRaw);
+//    var object = JSON.parse(JSON.stringify(jsonRaw));
+//    document.getElementById("welcome").innerHTML = jsonRaw.tree[0].path;
+//    document.getElementById("json-view").innerHTML = JSON.stringify(jsonRaw);
+
+    for (var i=0 ; i < jsonRaw.tree.length ; i++) {
+        
+//      if (jsonRaw.tree[i].path.search("sound/") >= 0) {
+        if (jsonRaw.tree[i].path.search(/wav|mp3|ogg/) >= 0) {
+        console.log(jsonRaw.tree[i].path);
+        listname.push(jsonRaw.tree[i].path);
+        changeText2(i + 1, jsonRaw.tree[i].path);
+        list.push("https://raw.githubusercontent.com/Team-Obsidian/" + playlistid + "/main/" + jsonRaw.tree[i].path);
+        console.log("https://raw.githubusercontent.com/Team-Obsidian/" + playlistid + "/main/" + jsonRaw.tree[i].path)
+
+
+      }
+  }  
+  console.log(list);
+  autoplay(0, list);
+  
+  document.getElementById("displayshuffle").innerHTML = "Shuffle Status: " + shuffletoggle.toString();
+  document.getElementById("inputSong").setAttribute("max", listname.length);
+  document.getElementById("inputSong").setAttribute("value", 1);
+  document.getElementById("inputSong").removeAttribute("readonly");
+  showValue(document.getElementById("volumeSlide").value);   
+  updateSongName();
+  
+
+
+//document.querySelector('ul').appendChild(document.createElement('li'));
+
+}
+
+function rememberList() {
+  if (sessionStorage.getItem("playlistid") == "null" || sessionStorage.getItem("playlistid") == null) {
+    console.log("No playlistid remembered.")
+    return;
+  }
+  else {
+    load(sessionStorage.getItem("playlistid"));
+  }
+}
+
+// Save data to sessionStorage
+
+
+// Get saved data from sessionStorage
+//let data = sessionStorage.getItem("key");
+
+// Remove saved data from sessionStorage
+//sessionStorage.removeItem("key");
+
+// Remove all saved data from sessionStorage
+//sessionStorage.clear();
+
+function removewait() {
+  $("#waitscreen").css({"opacity": "0"});
+    }
+
+  </script>
+
+<script>
+var playlistitems = []
+
+//saves the file directories of an itunes playlist json from https://codebeautify.org/xmltojson
+async function savelistdirectory() {
+    //obtains the json file, still need a more dynamic way to do it / upload file to do it
+    let url = 'https://website-2-music-demo.teamobsidianasterisk.repl.co/playlist.json';
+    let playlistRaw = await (await fetch(url)).json();
+    console.log(playlistRaw);
+
+    //loop for every song in the 
+    for (var i=0 ; i < playlistRaw.plist.dict.dict.dict.length ; i++) {
+      if (playlistRaw.plist.dict.dict.dict[i].string[playlistRaw.plist.dict.dict.dict[i].string.length - 1].search("file://") >= 0) {
+        console.log(playlistRaw.plist.dict.dict.dict[i].string[playlistRaw.plist.dict.dict.dict[i].string.length - 1].substring(17));
+        playlistitems.push(playlistRaw.plist.dict.dict.dict[i].string[playlistRaw.plist.dict.dict.dict[i].string.length - 1].substring(17));
+      }
+  }
+  console.log(playlistitems);
+  
+  var textDoc = document.createElement('a');
+
+  textDoc.innerHTML = "click for text file"
+  textDoc.href = 'data:attachment/text,' + encodeURI(playlistitems.join('\n'));
+  textDoc.target = '_blank';
+  textDoc.download = 'myFile.txt';
+  textDoc.click();
+}
+</script>
+      
+<img src="https://team-obsidian.github.io/website-2/img/icon/forestbunny.gif" onclick="toggleshuffle()"><p>toggle shuffle</p> -->
+<img src="https://team-obsidian.github.io/website-2/img/icon/forestbunny.gif" onclick="skip()"><p>Next Song</p>
+<img src="https://team-obsidian.github.io/website-2/img/icon/cupcakebunny.gif" onclick="audiotoggle()"><p>Turn on and off the music</p>
+
+
+      
+
+
+<p id="json-playlist" onclick="savelistdirectory()">Test directory output[DEV]</p>
+
+
+
+<script>
+function showValue(newValue) {
+    document.getElementById('range').innerHTML="Volume: " + newValue;
+    Howler.volume(newValue);
+}
+
+function selectSong() {
+  if (document.getElementById("inputSong").value - 1 == i) {return} else {
+  this.howl.unload();
+  i = document.getElementById("inputSong").value-1;
+  autoplay(i, list);
+  }
+}
+
+function updateSongName() {
+  document.getElementById("selectSongName").innerHTML=listname[document.getElementById("inputSong").value - 1];
+}
+
+</script>
+<input id="volumeSlide" type="range" min="0" max="1" value="0.75" step="0.05" onchange="showValue(this.value)" oninput="showValue(this.value)">
+<span id="range">0.75</span>
+<br>
+<input id="inputSong" type="number" max="1" min="1" value="1" onchange="updateSongName()" readonly><button onclick="selectSong()" id="songButton">Change Song</button>
+<p id="selectSongName">insert song here</p>
+
+
+<form>
+<select id="playlistList">
+  <option value="mus-somebody">Somebody's list</option>
+  <option value="mus-think">Thinklist</option>
+</select> 
+
+
+  
+</form>
+<button onclick="load(document.getElementById('playlistList').value)">Load Button</button>
+<br>
+<button onclick="sessionStorage.clear()">Clear sessionStorage</button>
+<br>
+  <div id="songListContainer">
+<ul id="trueSongList"style="list-style-type:none;"></ul>
+  </div>
+<!--
+        <p>a34</p>
+  <input type="file" id="inputxml">
+
+
+    <script>
+      document.getElementById("inputxml").addEventListener("change", convertxml, true);
+
+      function convertxml() {
+      //  var parseString = require('xml2js').parseString;
+        var xmlin = document.getElementById("inputxml").files[0];
+      //  parseString(xml, function (err, result) { console.dir(result); })
+        var s = new XMLSerializer();
+        var newXmlStr = s.serializeToString(xmlin.node());
+
+        
+        console.log("xml inputted!");
+        console.log(xmlin);
+        console.log(newXmlStr);
+        //console.log(xmlToJson(xmlin));
+      }
+
+        
+        function xmlToJson(xml) {
+	
+	// Create the return object
+	var returnxml2json = {};
+
+	if (xml.nodeType == 1) { // element
+		// do attributes
+		if (xml.attributes.length > 0) {
+		obj["@attributes"] = {};
+			for (var j = 0; j < xml.attributes.length; j++) {
+				var attribute = xml.attributes.item(j);
+				obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+			}
+		}
+	} else if (xml.nodeType == 3) { // text
+		obj = xml.nodeValue;
+	}
+
+	// do children
+	if (xml.hasChildNodes()) {
+		for(var i = 0; i < xml.childNodes.length; i++) {
+			var item = xml.childNodes.item(i);
+			var nodeName = item.nodeName;
+			if (typeof(obj[nodeName]) == "undefined") {
+				obj[nodeName] = xmlToJson(item);
+			} else {
+				if (typeof(obj[nodeName].push) == "undefined") {
+					var old = obj[nodeName];
+					obj[nodeName] = [];
+					obj[nodeName].push(old);
+				}
+				obj[nodeName].push(xmlToJson(item));
+			}
+		}
+	}
+	return returnxml2json;
+};
+
+    </script>
+-->
+
+      
+<!-- <img src="../img/icon/ghostbunny.gif" onclick="savesong()"><p>Save your music(I think this works)</p>
+<img src="../img/icon/bugbunny.webp" onclick="loadsong()"><p>Load your music(I think this works)</p> -->
+
+
+
+<!--
+<button type="button" onclick="set1()">Set Left</button>
+<button type="button" onclick="set2()">Set Right</button>
+<button type="button" onclick="displaytesttest()">Check Console</button>
+<button type="button" onclick="savesong()">Save song and display</button>
+-->
+
+</div>
+  <div id="waitscreen" onclick=""></div>
+</body>
+</html>
