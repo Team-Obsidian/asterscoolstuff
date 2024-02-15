@@ -1,15 +1,26 @@
 <div id="mgContent" class="fadeIn">
   <form autocomplete="off">
-    <input type="text" onpaste="SiteRedirect()" id="userInput" onfocus="" onfocusout="" class="center inputBox inputBoxEnlargen" />
-    <input type="text" onpaste="SiteRedirect()" id="bookmarkName" onfocus="" onfocusout="" class="center inputBox" />
-    <button id="bookmarkSubmit">Create Bookmark</button><button id="bookmarkDelete">Delete Bookmark</button>
-  </form>
+    <input type="text" onpaste="" id="userInput" onfocus="" onfocusout="" class="center inputBox inputBoxEnlargen" />
+<!--    <input type="text" onpaste="SiteRedirect()" id="bookmarkName" onfocus="" onfocusout="" class="center inputBox" /> -->
+    </form>
+    <input id="linkName" placeholder="Link Name" type="text">
+    <button type='button' id="addLink" onclick="addLink('False',0)">Add bookmark</button>
+<button id="removeLink">Delete Bookmark [does nothing]</button>
+
+
+
 
   <img id="testimage" class="center"
     src="https://github.com/Team-Obsidian/website-2/blob/main/img/icon/forestbunny.gif?raw=true"
     onclick="checkpassword2()" />
 
-  <div id="buttonfield" class="center">
+
+
+    <br>
+
+
+  
+  <div id="buttonfield" class="">
     <!--<button onclick="checkpassword()">Apply</button>-->
 
 
@@ -46,6 +57,7 @@
     <a href="https://red-mooschrom-github-io.vercel.app/"><button>Doodle</button></a>
 
   </div>
+  <br>
   <div id='buttonfieldCustom'>
     
   </div>
@@ -69,10 +81,12 @@
   <script>
     $(document).ready(function () {
       if (localStorage.getItem("notepad") != null) {
-
         document.getElementById("notepad").innerHTML = localStorage.getItem("notepad");
       }
 
+
+      loadLink();
+      
     });
 
 

@@ -41,6 +41,7 @@ $(document).ready(function() {
   //fetch time related variables by using loadTime()
   loadTime();
 
+
   if (localStorage.getItem("pageRemember") === null) {
     console.log("no page remembered");
   } else {
@@ -490,18 +491,61 @@ function flipPage(page) {
   $("#textContainer").load("./ZombieStory/" + page + ".html");
 }
 
-var bookmarkList = []
+var listURL = [];
+var listName = [];
+var linkURL = "errorURL!";
+var linkName = "errorName!";
 
-function createBookmark() {
-  let bookmarkName = document.getElementById("bookmarkName").value;
-  let bookmarkLink = document.getElementById("userInput").value;
-  localStorage.setItem(bookmarkName, bookmarkLink);
-  console.log("bookmark created: " + bookmarkName + " with link: " + bookmarkLink);
-  bookmarkList.push(bookmarkName);
+function addLink(fetch, listPosition) {
+  console.log('link is being added');
+  if (fetch == "False") {
+    if (document.getElementById("userInput").value == '' || document.getElementById('linkName.value') == '') {
+      alert('Your name or link is empty... sorry.');
+      return
+    }
+    linkURL = document.getElementById("userInput").value;
+    linkName = document.getElementById("linkName").value;
+    if (localStorage.getItem("linkName") != null) {
+      localStorage.setItem("linkName", localStorage.getItem("linkName") + "|" + linkName);
+    } else {
+      localStorage.setItem("linkName", linkName);
+    }
+    if (localStorage.getItem("linkURL") != null) {
+      localStorage.setItem("linkURL", localStorage.getItem("linkURL") + "|" + linkURL);
+    } else {
+      localStorage.setItem("linkURL", linkURL);
+    }
+  } else {
+    linkURL = listURL[listPosition];
+    linkName = listName[listPosition];
+  }
+
+  var link = document.createElement("button");
+  document.getElementById("buttonfieldCustom").appendChild(link);
+  link.onclick = () => {
+      window.location=linkURL;
+    };
+  link.innerHTML = linkName;
+
+
+//  setTimeout(() => {
+    console.log("linkName local storage is: " + localStorage.getItem("linkName"));
+    console.log("linkURL local storage is: " + localStorage.getItem("linkURL"));
+    console.log("linkName is: " + linkName);
+    console.log("linkURL is: " + linkURL);
+//  }, 100);
+
 }
 
-function callBookmark() {
-  for (let i=0; i<bookmarkList.length(); i++) {
-    
+
+
+function loadLink() {
+  console.log("links loading!");
+  if (localStorage.getItem("linkName") != null && localStorage.getItem("linkName") != null) {
+    listName = localStorage.getItem("linkName").split("|");
+    listURL = localStorage.getItem("linkURL").split("|");
+    for (var i = 0; i < listName.length; i++) {
+      addLink("True", i);
+    }
   }
 }
